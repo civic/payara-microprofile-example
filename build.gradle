@@ -9,7 +9,6 @@ repositories {
 
 dependencies {
 	providedCompile 'javax:javaee-web-api:7.0'
-
 	providedRuntime 'fish.payara.extras:payara-microprofile:1.0-4.1.2.172'
     testCompile 'junit:junit:4.10'
 }
@@ -17,11 +16,14 @@ dependencies {
 war {
 	archiveName = 'ROOT.war'
 }
-task runMicro(type: Exec, dependsOn: war) {
+task payara(type: Exec, dependsOn: war) {
+    description "Run payara-microprofile server with this project's war file."
+
     def payaraJarPath = configurations
                         .providedRuntime
                         .find {it.name =~ /payara-micro.*\.jar/}
                         .absolutePath
+
     def warFile = war.archivePath
     commandLine('java', '-jar', payaraJarPath, '--deploy', warFile)
 }
