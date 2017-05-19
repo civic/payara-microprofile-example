@@ -27,3 +27,22 @@ task payara(type: Exec, dependsOn: war) {
     def warFile = war.archivePath
     commandLine('java', '-jar', payaraJarPath, '--deploy', warFile)
 }
+task uberJar(type: Exec, dependsOn: war){
+    description "Create runnable jar file."
+
+    def payaraJarPath = configurations
+                        .providedRuntime
+                        .find {it.name =~ /payara-micro.*\.jar/}
+                        .absolutePath
+    def warFile = war.archivePath
+    def outputPath = project.distsDir.absolutePath + "/app.jar"
+    
+    doFirst{
+        if (!project.distsDir.exists()) {
+            project.distsDir.mkdir()
+        }
+    }
+
+    commandLine('java', '-jar', payaraJarPath, '--deploy', warFile, '--outputUberJar', distsDir.path + "/app.jar")
+}
+
