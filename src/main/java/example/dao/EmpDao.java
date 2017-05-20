@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -33,7 +34,7 @@ public class EmpDao {
                 try(ResultSet rs = stmt.executeQuery("SELECT * FROM emp")){
                     while(rs.next()){
 
-                        Emp emp = new Emp(rs.getInt("id"), rs.getString("ename"), null);
+                        Emp emp = new Emp(rs.getInt("id"), rs.getString("ename"), new Date(rs.getDate("hiredate").getTime()));
                         emps.add(emp);
 
                     }

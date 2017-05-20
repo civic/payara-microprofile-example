@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public interface DateTimeMixin {
     default String dateFormat(Date d){
-        return LocalDateTime.ofInstant(d.toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+        return LocalDateTime.ofInstant(d.toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
     
 }
