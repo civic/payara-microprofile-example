@@ -2,6 +2,8 @@ package example.api;
 
 import example.service.DataService;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -34,17 +36,10 @@ public class EmpResource{
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject find() throws SQLException{
-        JsonArrayBuilder emps = Json.createArrayBuilder();
-
-
-        dataService.getEmpList().stream().forEach(emp -> { 
-            emps.add(emp.toJsonObject()); 
-        });
-
-        return Json.createObjectBuilder()
-                .add("emps", emps.build())
-                .build();
+    public Map<String, Object> find() throws SQLException{
+        Map<String, Object> json = new HashMap<>();
+        json.put("emps", dataService.getEmpList());
+        return json;
 
     }
 

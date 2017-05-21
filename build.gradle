@@ -10,9 +10,9 @@ repositories {
 dependencies {
     compile 'org.projectlombok:lombok:1.16.16'
 	compile 'com.h2database:h2:1.4.195'
+    providedCompile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
 	providedCompile 'javax:javaee-web-api:7.0'
 	providedRuntime 'fish.payara.extras:payara-microprofile:1.0-4.1.2.172'
-	runtime 'fish.payara.extras:payara-microprofile:1.0-4.1.2.172'
     testCompile 'junit:junit:4.10'
 }
 

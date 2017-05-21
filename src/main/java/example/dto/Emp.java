@@ -5,6 +5,7 @@
  */
 package example.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import example.mixin.DateTimeMixin;
 import java.util.Date;
 import javax.json.Json;
@@ -24,20 +25,7 @@ import lombok.AllArgsConstructor;
 public class Emp implements DateTimeMixin {
     private int empno;
     private String ename;
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date hiredate;
 
-    public JsonObject toJsonObject(){
-        
-        JsonObjectBuilder builder =Json.createObjectBuilder()
-                    .add("id", empno)
-                    .add("ename", ename);
-
-        if (hiredate == null){
-            builder.addNull("hiredata");
-        } else {
-            builder.add("hiredate", dateFormat(hiredate));
-        }
-        return builder.build();
-
-    }
 }
