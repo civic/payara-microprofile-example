@@ -1,15 +1,18 @@
 package example.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import example.dto.Emp;
 import example.service.DataService;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -24,6 +27,9 @@ public class EmpResource{
 
     @Inject
     private DataService dataService;
+
+    @Inject
+    private ObjectMapper mapper;
 	
 	@GET
 	@Path("hello")
@@ -36,11 +42,19 @@ public class EmpResource{
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> find() throws SQLException{
-        Map<String, Object> json = new HashMap<>();
-        json.put("emps", dataService.getEmpList());
-        return json;
+    public ObjectNode find() throws SQLException{
+        return mapper.createObjectNode()
+                .putPOJO("emps", dataService.getEmpList());
 
     }
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ObjectNode create(Emp emp) throws SQLException, JsonProcessingException{
+
+        System.out.println(mapper.writeValueAsString(emp));
+
+        return mapper.valueToTree(emp);
+    } 
 
 }
