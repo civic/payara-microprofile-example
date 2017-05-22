@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import org.glassfish.jersey.jackson.JacksonFeature;
 
 
 /**
@@ -18,6 +19,7 @@ public class MyApp extends Application{
     public Set<Class<?>> getClasses() {
         HashSet<Class<?>> classes = new HashSet(super.getClasses());
         classes.add(MarshallingFeature.class);
+        classes.add(JacksonFeature.class);
         classes.add(EmpResource.class);
         return classes;
     }

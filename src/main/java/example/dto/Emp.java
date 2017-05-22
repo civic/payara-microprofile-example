@@ -18,8 +18,7 @@ public class Emp {
     private int empno;
     private String ename;
 
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "JST")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "JST")
     @JsonDeserialize(using = DateDeserializer.class)
     private Date hiredate;
 

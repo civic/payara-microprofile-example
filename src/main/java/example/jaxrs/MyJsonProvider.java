@@ -22,7 +22,6 @@ public class MyJsonProvider extends JacksonJaxbJsonProvider{
         mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-
         setMapper(mapper);
 
     }
