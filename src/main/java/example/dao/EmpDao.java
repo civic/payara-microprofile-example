@@ -16,6 +16,7 @@ import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.sql.DataSource;
+import lombok.Cleanup;
 
 /**
  *
@@ -29,17 +30,12 @@ public class EmpDao {
 
     public List<Emp> find() throws SQLException{
         List<Emp> emps = new ArrayList<>();
-        try (Connection conn = ds.getConnection()){
-            try (Statement stmt = conn.createStatement()){
-                try(ResultSet rs = stmt.executeQuery("SELECT * FROM emp")){
-                    while(rs.next()){
-
-                        Emp emp = new Emp(rs.getInt("id"), rs.getString("ename"), new Date(rs.getDate("hiredate").getTime()));
-                        emps.add(emp);
-
-                    }
-                }
-            }
+        @Cleanup Connection conn = ds.getConnection();
+        @Cleanup Statement stmt = conn.createStatement();
+        @Cleanup ResultSet rs = stmt.executeQuery("SELECT * FROM emp");
+        while(rs.next()){
+            Emp emp = new Emp(rs.getInt("id"), rs.getString("ename"), new Date(rs.getDate("hiredate").getTime()));
+            emps.add(emp);
         }
         return emps;
 
