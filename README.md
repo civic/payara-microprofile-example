@@ -7,36 +7,24 @@ Simple Payara Microprofile Application Example.
 How To Run
 -------------------
 
-
 ```
-./gradlew payara
+mvn install
+java -jar payara-microprofile-*.jar --deploy target/ROOT.war --nocluster
 ```
 
 Build war file.  And run Payara server.
 
 
 ```
-$ curl -i http://localhost:8080/api/myapi/hello
-HTTP/1.1 200 OK
-Server: Payara Micro
-Content-Type: application/json
-Date: Fri, 19 May 2017 03:45:33 GMT
-Content-Length: 21
-
-{"msg":"Hello World"}
+$ curl -i http://localhost:8080/api/emps
 ```
 
 Make UberJar
 ---------------
 
 ```
-./gradlew uberJar
-```
-
-Create a runnable jar file that contains webapp-war and payara server.
-
-```
-$ java -jar build/distributions/app.jar
+java -jar payara-microprofile-*.jar --deploy target/ROOT.war --outputuberjar app.jar
+java -jar app.jar
 ...
 Payara Micro URLs
 ...
