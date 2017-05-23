@@ -1,11 +1,11 @@
 package example.api;
 
-import example.jaxrs.MarshallingFeature;
-import java.util.HashSet;
-import java.util.Set;
+import example.jaxrs.MyJsonProvider;
 import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import javax.ws.rs.ext.MessageBodyReader;
+import javax.ws.rs.ext.MessageBodyWriter;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.server.ResourceConfig;
 
 
 /**
@@ -13,18 +13,12 @@ import org.glassfish.jersey.jackson.JacksonFeature;
  * @author tsasaki
  */
 @ApplicationPath("api")
-public class MyApp extends Application{
+public class MyApp extends ResourceConfig{
 
-    @Override
-    public Set<Class<?>> getClasses() {
-        HashSet<Class<?>> classes = new HashSet(super.getClasses());
-        classes.add(MarshallingFeature.class);
-        classes.add(JacksonFeature.class);
-        classes.add(EmpResource.class);
-        return classes;
+    public MyApp() {
+        register(MyJsonProvider.class, MessageBodyReader.class, MessageBodyWriter.class);
+        register(JacksonFeature.class);
+        packages("example.api");
     }
-
-    
-
 	
 }

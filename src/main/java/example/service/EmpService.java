@@ -11,7 +11,7 @@ import javax.inject.Inject;
  * DataStoreSerivce
  */
 @Dependent
-public class DataService {
+public class EmpService {
     @Inject
     private EmpDao empDao;
     
