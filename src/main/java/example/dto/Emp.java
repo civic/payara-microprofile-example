@@ -17,7 +17,6 @@ import lombok.AllArgsConstructor;
 public class Emp {
     private int empno;
     private String ename;
-
     @JsonFormat(pattern = "yyyy/MM/dd", timezone = "JST")
     @JsonDeserialize(using = DateDeserializer.class)
     private Date hiredate;

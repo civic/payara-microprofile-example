@@ -15,10 +15,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-/**
- *
- * @author tsasaki
- */
 @Path("emps")
 @RequestScoped
 public class EmpResource{
@@ -42,6 +38,8 @@ public class EmpResource{
     public ObjectNode create(Emp emp) throws SQLException, JsonProcessingException{
 
         System.out.println(mapper.writeValueAsString(emp));
+
+        emp = empService.create(emp);
 
         return mapper.valueToTree(emp);
     } 

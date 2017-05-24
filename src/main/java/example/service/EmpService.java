@@ -14,9 +14,15 @@ import javax.inject.Inject;
 public class EmpService {
     @Inject
     private EmpDao empDao;
-    
+
     public List<Emp> getEmpList() throws SQLException {
         List<Emp> emps = empDao.find();
         return emps;
     }
+
+    public Emp create(Emp emp) throws SQLException {
+
+        return empDao.create(emp);
+    }
+
 }

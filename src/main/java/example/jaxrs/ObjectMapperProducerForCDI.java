@@ -1,7 +1,6 @@
 package example.jaxrs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
@@ -14,8 +13,7 @@ public class ObjectMapperProducerForCDI {
     private final ObjectMapper mapper;
 
     public ObjectMapperProducerForCDI() {
-        this.mapper = new ObjectMapper();
-        this.mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper = CustomObjectMapperResolver.getMapper();
     }
 
     @Produces
