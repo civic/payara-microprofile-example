@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import static example.util.DateTimeConverters.*;
 
+/**
+ * LocalDateからJsonStringへのシリアライザ
+ */
 public class LocalDateSerializer extends JsonSerializer<LocalDate>{
     @Override
     public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {

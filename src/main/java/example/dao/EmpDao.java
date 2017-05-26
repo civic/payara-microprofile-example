@@ -1,65 +1,50 @@
 package example.dao;
 
 import example.dto.Emp;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.time.LocalDate;
 import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.sql.DataSource;
-import lombok.Cleanup;
-import static example.util.DateTimeConverters.*;
-import java.util.ArrayList;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.session.SqlSession;
 
 @Dependent
 public class EmpDao {
     @Inject
-    private DataSource ds;
+    private SqlSession session;
     
-
     public List<Emp> find() throws SQLException{
-        List<Emp> emps = new ArrayList<>();
-        @Cleanup Connection conn = ds.getConnection();
-        @Cleanup Statement stmt = conn.createStatement();
-        @Cleanup ResultSet rs = stmt.executeQuery("SELECT * FROM emp");
-        while(rs.next()){
-            LocalDate hiredate = sqlDate2localDate(rs.getDate("hiredate"));
-            Emp emp = new Emp(rs.getInt("id"), rs.getString("ename"), hiredate);
-            emps.add(emp);
-        }
-        return emps;
-
+        return session.getMapper(EmpMapper.class).select();
     }
 
     public Emp create(Emp emp) throws SQLException {
+        EmpMapper mapper = session.getMapper(EmpMapper.class);
+        mapper.create(emp);
+        session.commit();
+        Emp newEmp = mapper.get(emp.getEmpno());
+        return newEmp;
+    }
 
-        @Cleanup Connection conn = ds.getConnection();
-        @Cleanup PreparedStatement stmt = conn.prepareStatement("INSERT INTO emp(ename, hiredate) values(?, ?)");
+    public static interface EmpMapper {
+        
+        @Results(id="empResult", value = {
+            @Result(property = "empno", column = "id", id=true),
+        })
+        @Select("SELECT * FROM emp")
+        List<Emp> select();
 
-        if (emp.getEname() != null){
-            stmt.setString(1, emp.getEname());
-        } else {
-            stmt.setNull(1, Types.VARCHAR);
-        }
+        @SelectKey(statement = "CALL IDENTITY()", keyProperty = "empno", before=false, resultType = int.class)
+        @Insert("INSERT INTO emp(ename, hiredate) VALUES(#{ename}, #{hiredate})")
+        int create(Emp emp);
 
-        if (emp.getHiredate() != null){
-            stmt.setDate(2, localDate2SqlDate(emp.getHiredate()));
-        } else {
-            stmt.setNull(1, Types.DATE);
-        }
-
-        stmt.executeUpdate();
-
-        //get last auto-increament empno
-        @Cleanup ResultSet key = stmt.getGeneratedKeys();
-        key.next();
-        emp.setEmpno(key.getInt(1));
-        return emp;
+        @ResultMap("empResult") //reference to "method select @Results"
+        @Select("SELECT * FROM emp WHERE id = #{empno}")
+        Emp get(int empno);
 
     }
 
