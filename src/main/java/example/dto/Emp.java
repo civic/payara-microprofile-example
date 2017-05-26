@@ -1,9 +1,10 @@
 package example.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import example.jaxrs.DateDeserializer;
-import java.util.Date;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import example.jaxrs.LocalDateDeserializer;
+import example.jaxrs.LocalDateSerializer;
+import java.time.LocalDate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -17,8 +18,8 @@ import lombok.AllArgsConstructor;
 public class Emp {
     private int empno;
     private String ename;
-    @JsonFormat(pattern = "yyyy/MM/dd", timezone = "JST")
-    @JsonDeserialize(using = DateDeserializer.class)
-    private Date hiredate;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate hiredate;
 
 }

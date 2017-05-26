@@ -5,16 +5,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLType;
 import java.sql.Statement;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import lombok.Cleanup;
+import static example.util.DateTimeConverters.*;
+import java.util.ArrayList;
 
 @Dependent
 public class EmpDao {
@@ -28,7 +28,8 @@ public class EmpDao {
         @Cleanup Statement stmt = conn.createStatement();
         @Cleanup ResultSet rs = stmt.executeQuery("SELECT * FROM emp");
         while(rs.next()){
-            Emp emp = new Emp(rs.getInt("id"), rs.getString("ename"), new Date(rs.getDate("hiredate").getTime()));
+            LocalDate hiredate = sqlDate2localDate(rs.getDate("hiredate"));
+            Emp emp = new Emp(rs.getInt("id"), rs.getString("ename"), hiredate);
             emps.add(emp);
         }
         return emps;
@@ -47,7 +48,7 @@ public class EmpDao {
         }
 
         if (emp.getHiredate() != null){
-            stmt.setDate(2, new java.sql.Date(emp.getHiredate().getTime()));
+            stmt.setDate(2, localDate2SqlDate(emp.getHiredate()));
         } else {
             stmt.setNull(1, Types.DATE);
         }
