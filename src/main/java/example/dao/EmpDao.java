@@ -62,7 +62,7 @@ public class EmpDao {
         List<Emp> select();
 
         @SelectKey(statement = "CALL IDENTITY()", keyProperty = "empno", before=false, resultType = int.class)
-        @Insert("INSERT INTO emp(ename, hiredate) VALUES(#{ename}, #{hiredate})")
+        @Insert("INSERT INTO emp(ename, hiredate, deptno) VALUES(#{ename}, #{hiredate}, #{deptno})")
         int create(Emp emp);
 
         @ResultMap("empResult") //reference to "method select @Results"
