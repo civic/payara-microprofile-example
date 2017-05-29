@@ -4,6 +4,7 @@ import example.dto.Emp;
 import example.dto.EmpDept;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.apache.ibatis.annotations.Insert;
@@ -33,6 +34,17 @@ public class EmpDao {
     public List<EmpDept> findWithDname() throws SQLException{
         return session.getMapper(EmpMapper.class).selectWithDept();
     }
+    /**
+     * Mapのリストを返すJOIN検索の実装。
+     * Mapに検索結果の1行を返す。 JOIN結果行に対するクラスを作成せず、
+     * 汎用的に使えるMapに1行を格納。列名でデータを指定するので型安全にならない。
+     * @return
+     * @throws SQLException 
+     */
+    public List<Map> findWithDnameByMap() throws SQLException{
+        return session.getMapper(EmpMapper.class).selectWithDeptByMap();
+    }
+
     public Emp create(Emp emp) throws SQLException {
         EmpMapper mapper = session.getMapper(EmpMapper.class);
         mapper.create(emp);
@@ -57,6 +69,19 @@ public class EmpDao {
         @Select("SELECT * FROM emp WHERE id = #{empno}")
         Emp get(int empno);
 
+        /**
+         * EmpDept DTO（EmpとDeptをJOINした結果の行オブジェクト）を津kった検索
+         * @return 
+         */
+        @Results({
+            @Result(property = "empno", column = "id", id=true),
+        })
+        @Select("SELECT e.*, d.dname FROM EMP e LEFT JOIN dept d ON e.deptno = d.id")
+        List<EmpDept> selectWithDept();
+
+
+        @Select("SELECT e.*, d.dname FROM EMP e LEFT JOIN dept d ON e.deptno = d.id")
+        List<Map> selectWithDeptByMap();
     }
 
     

@@ -51,6 +51,18 @@ public class EmpResource{
                 .putPOJO("emps", empService.getEmpDeptList());
     }
 
+    /**
+     * EmpとDeptをJOINした結果をJSONで返すその2。
+     * findWithDnameと同じ結果JSONを返すが、EmpDeptを作成せずにMapから生成する
+     * @return
+     * @throws SQLException 
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("with-dname-by-map")
+    public ObjectNode findWithDnameByMap() throws SQLException{
+        return mapper.createObjectNode()
+                .putPOJO("emps", empService.getEmpDeptListByMap());
     }
 
     /**
