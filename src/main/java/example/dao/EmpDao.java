@@ -1,6 +1,7 @@
 package example.dao;
 
 import example.dto.Emp;
+import example.dto.EmpDept;
 import java.sql.SQLException;
 import java.util.List;
 import javax.enterprise.context.Dependent;
@@ -22,6 +23,16 @@ public class EmpDao {
         return session.getMapper(EmpMapper.class).select();
     }
 
+    /**
+     * EmpDeptのリストを返すJOIN検索の実装。
+     * JOINした結果を保持するクラスを作成し、その検索結果を返す。
+     * 型安全になるが、JOIN結果行に対するクラス(EmpDept)を作成する必要がある
+     * @return
+     * @throws SQLException 
+     */
+    public List<EmpDept> findWithDname() throws SQLException{
+        return session.getMapper(EmpMapper.class).selectWithDept();
+    }
     public Emp create(Emp emp) throws SQLException {
         EmpMapper mapper = session.getMapper(EmpMapper.class);
         mapper.create(emp);
