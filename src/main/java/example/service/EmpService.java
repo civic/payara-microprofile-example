@@ -2,6 +2,7 @@ package example.service;
 
 import example.dao.EmpDao;
 import example.dto.Emp;
+import example.dto.EmpDept;
 import java.sql.SQLException;
 import java.util.List;
 import javax.enterprise.context.Dependent;
@@ -17,6 +18,10 @@ public class EmpService {
 
     public List<Emp> getEmpList() throws SQLException {
         List<Emp> emps = empDao.find();
+        return emps;
+    }
+    public List<EmpDept> getEmpDeptList() throws SQLException {
+        List<EmpDept> emps = empDao.findWithDname();
         return emps;
     }
 

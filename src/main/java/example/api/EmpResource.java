@@ -25,13 +25,41 @@ public class EmpResource{
     @Inject
     private ObjectMapper mapper;
 	
+    /**
+     * Empの一覧をJSONで返す。
+     * @return
+     * @throws SQLException 
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ObjectNode find() throws SQLException{
         return mapper.createObjectNode()
                 .putPOJO("emps", empService.getEmpList());
+    }
+
+    /**
+     * EmpとDeptをJOINした結果をJSONで返す。
+     * EmpとDeptをJOINしたオブジェクトをクラスとして実装
+     * @return
+     * @throws SQLException 
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("with-dname")
+    public ObjectNode findWithDname() throws SQLException{
+        return mapper.createObjectNode()
+                .putPOJO("emps", empService.getEmpDeptList());
+    }
 
     }
+
+    /**
+     * Empを1件作成する
+     * @param emp
+     * @return
+     * @throws SQLException
+     * @throws JsonProcessingException 
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
