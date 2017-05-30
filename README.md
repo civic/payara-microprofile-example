@@ -10,6 +10,7 @@ Payara MicroProfileでのプロジェクトExample.
     - 動作確認はNetBeansのJavaEEサーバに自動デプロイされる
     - 保存するだけで自動デプロイ->動作確認ができる
 - 最終的な成果物はPayara MicroprofileでJavaコマンドで実行することを想定
+- DBアクセスにはMyBatisを使用
 
 
 Quick Start
