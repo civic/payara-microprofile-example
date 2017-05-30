@@ -5,6 +5,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
+
+/**
+ * JAX-RSのObjectMapperをカスタマイズして生成するResolver
+ * @author tsasaki
+ */
 @Provider
 public class CustomObjectMapperResolver implements ContextResolver<ObjectMapper>{
     private static ObjectMapper mapper;

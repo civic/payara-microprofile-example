@@ -15,6 +15,10 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.session.SqlSession;
 
+
+/**
+ * Empテーブルに関するDataAccess
+ */
 @Dependent
 public class EmpDao {
     @Inject

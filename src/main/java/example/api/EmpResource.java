@@ -15,6 +15,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+/**
+ * JAX-RSのリソースクラスEmp
+ */
 @Path("emps")
 @RequestScoped
 public class EmpResource{
