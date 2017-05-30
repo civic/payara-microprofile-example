@@ -62,7 +62,7 @@ public class EmpDao {
         @Results(id="empResult", value = {
             @Result(property = "empno", column = "id", id=true),
         })
-        @Select("SELECT * FROM emp")
+        @Select("SELECT * FROM emp ORDER BY id")
         List<Emp> select();
 
         @SelectKey(statement = "CALL IDENTITY()", keyProperty = "empno", before=false, resultType = int.class)
@@ -70,7 +70,7 @@ public class EmpDao {
         int create(Emp emp);
 
         @ResultMap("empResult") //reference to "method select @Results"
-        @Select("SELECT * FROM emp WHERE id = #{empno}")
+        @Select("SELECT * FROM emp WHERE id = #{empno} ORDER BY id")
         Emp get(int empno);
 
         /**
@@ -80,11 +80,11 @@ public class EmpDao {
         @Results({
             @Result(property = "empno", column = "id", id=true),
         })
-        @Select("SELECT e.*, d.dname FROM EMP e LEFT JOIN dept d ON e.deptno = d.id")
+        @Select("SELECT e.*, d.dname FROM EMP e LEFT JOIN dept d ON e.deptno = d.id ORDER BY e.id")
         List<EmpDept> selectWithDept();
 
 
-        @Select("SELECT e.*, d.dname FROM EMP e LEFT JOIN dept d ON e.deptno = d.id")
+        @Select("SELECT e.*, d.dname FROM EMP e LEFT JOIN dept d ON e.deptno = d.id ORDER BY e.id")
         List<Map> selectWithDeptByMap();
     }
 
