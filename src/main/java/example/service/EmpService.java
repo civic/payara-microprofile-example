@@ -39,7 +39,7 @@ public class EmpService {
             newRow.put("ename", row.get("ENAME"));
             newRow.put("hiredate", row.get("HIREDATE"));
             newRow.put("deptno",row.get("DEPTNO"));
-            newRow.put("dnemae",row.get("DNAME"));
+            newRow.put("dname",row.get("DNAME"));
             emps.add(newRow);
         });
         return emps;
