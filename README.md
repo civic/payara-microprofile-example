@@ -63,4 +63,26 @@ Payara Micro URLs
 ...
 ```
 
+構成
+-------
+
+```
+ <- HTTP REST -> JAX-RS -- Service -- Dao -- Database
+
+```
+
+### example.api (JAX-RS リソース)
+
+REST APIの提供をJAX-RSで実装。 MyAppはJAX-RSでのApplicationクラスの実装。RESTリソースの定義や各種設定。
+
+EmpResourceはEmpリソースにREST APIを定義。HTTPからの入り口とサービスの呼び出しを記述。
+JSONでのリクエスト、レスポンスに対応しドメインロジックを実装するサービスクラスを使って、
+リクエストされたリソースを返す。
+
+JSONでのレスポンスのためにJacksonのObjectNodeを返す。MyAppに定義されたJacksonFeatureによってJSONレスポンスが返せるようになっている。
+
+POSTデータはEmpのJavaBeanにマッピングされている。
+
+
+
 
