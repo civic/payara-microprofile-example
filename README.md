@@ -83,6 +83,19 @@ JSONでのレスポンスのためにJacksonのObjectNodeを返す。MyAppに定
 
 POSTデータはEmpのJavaBeanにマッピングされている。
 
+テストコードは、JerseyTestを使用して、 HTTPの入力から得られるJSONレスポンスを検証する。
+ServiceクラスはMockを使用。
 
+
+### example.service 
+
+ドメインロジックを実装。 EmpResourceから利用されREST,JSON-APIとは分離されて実装される。
+
+本システムがEmp表のCRUDという単純な目的なので、Daoの呼び出しを転送しているだけになっているが、
+Daoを駆使してデータベース永続化と分離された形でドメインロジックを実装する役割となる。
+
+テストコードはDaoのMockを使用し、DBは使用しない。
+Daoの動作に対してドメインロジックが想定している動作をするか検証する。
+Serviceクラスの実装がDaoの呼び出しをしているだけになっているため、テストで検証する内容があまりない。
 
 
