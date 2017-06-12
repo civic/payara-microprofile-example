@@ -74,7 +74,7 @@ public class EmpDao {
         Emp get(int empno);
 
         /**
-         * EmpDept DTO（EmpとDeptをJOINした結果の行オブジェクト）を津kった検索
+         * EmpDept DTO（EmpとDeptをJOINした結果の行オブジェクト）を使った検索
          * @return 
          */
         @Results({
